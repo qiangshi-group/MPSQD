@@ -1,0 +1,77 @@
+#-------------------------------------------------
+#  Hamiltonian Section
+#-------------------------------------------------
+
+Energy_Unit = eV
+
+# Electronic part
+nstate  =  2
+V_S0    = -0.42300
+V_S1    =  0.42300
+V_S0_S1 =  0.00
+V_S1_S0 =  0.00
+
+# Nuclear part
+nmode = 4
+# Mode List
+modes  | v10a | v6a  | v1   | v9a 
+
+# Frequencies
+omega_v10a =  0.11390 
+omega_v6a  =  0.07390 
+omega_v1   =  0.12580 
+omega_v9a  =  0.15250 
+
+## On-diagonal Coupling Coefficients
+# State 0
+# Linear
+kl_S0_v6a =  0.09806
+kl_S0_v1  =  0.05033
+kl_S0_v9a =  0.14521
+# Quadratic
+kq_S0_v10a = -0.01159
+kq_S0_v6a  =  0.00000
+kq_S0_v1   =  0.00000
+kq_S0_v9a  =  0.00000
+# Bilinear
+kb_S0_v6a_v1    =  0.00108
+kb_S0_v1_v9a    = -0.00474
+kb_S0_v6a_v9a   =  0.00204
+
+# State 1
+# Linear
+kl_S1_v6a = -0.13535
+kl_S1_v1  =  0.17100
+kl_S1_v9a =  0.03746
+# Quadratic
+kq_S1_v10a = -0.01159
+kq_S1_v6a  =  0.00000
+kq_S1_v1   =  0.00000
+kq_S1_v9a  =  0.00000
+# Bilinear
+kb_S1_v6a_v1    = -0.00298 
+kb_S1_v1_v9a    = -0.00155 
+kb_S1_v6a_v9a   =  0.00189 
+
+## Off-diagonal Coupling Coefficients
+# Linear
+kl_S0_S1_v10a = 0.20804
+# Bilinear
+kb_S0_S1_v10a_v1   =  0.00553
+kb_S0_S1_v10a_v6a  =  0.01000
+kb_S0_S1_v10a_v9a  =  0.00126
+
+#------------------------------------------------
+#    Propagation parameters
+#------------------------------------------------
+small      = 1e-13
+nrtt       = 20
+nbv        = 50
+nrmax      = 100
+init_state = 1
+
+# primitive basis section
+v10a = 40
+v6a  = 32
+v1   = 20
+v9a  = 12
