@@ -1,6 +1,6 @@
 import numpy as np
 from ..rk4 import rk4
-from ..ksltt import ksltt
+from ..tdvp import tdvp
 from ..utils import MPS, MPO, write_mps_file, write_mpo_file
 from .construct_sb import construct_sb as _construct_sb
 from .construct_holstein import construct_holstein as _construct_holstein
@@ -95,7 +95,7 @@ def init_mps(rho0,nlevel,nbv,nrtt=1,small=1e-14,need_trun=True):
   return argdict, _init_mps(rho0,argdict['nlevel'],nb,argdict['nrtt'],argdict['small'],argdict['need_trun'])
 
 class HEOM():
-  def prop(self,dt,nsteps,out_file_name="output.dat",prop_type="ksl",mmax=30,nrmax=50,need_trun=True):
+  def prop(self,dt,nsteps,out_file_name="output.dat",prop_type="ksl",update_type="krylov",mmax=30,small=1e-13,nrmax=50,need_trun=True):
     argdict = {'prop_type':prop_type}
     argdict['prop_type'] = argdict['prop_type'].lower()
     if (not(argdict['prop_type'] in ['ksl','rk4'])):
@@ -121,7 +121,7 @@ class HEOM():
     for istep in range(1,nsteps):
       print("istep =", istep)
       if(argdict['prop_type']=="ksl"):
-        rin = ksltt(rin, self.pall, dt, mmax=mmax)
+        rin = tdvp(rin, self.pall, dt, update_type, mmax=mmax, small=small)
       else:
         rin = rk4(rin, self.pall, dt, small=small,nrmax=nrmax,need_trun=need_trun)
       rho1 = rin.calc_rho()
@@ -177,7 +177,7 @@ class Schrodinger():
     self.pall,self.rin = construct_tds(self.params,construct_type)
     return
 
-  def prop(self,dt,nsteps,out_file_name="output.dat",prop_type="ksl",mmax=30,small=1e-14,nrmax=50,need_trun=True):
+  def prop(self,dt,nsteps,out_file_name="output.dat",prop_type="ksl",update_type="krylov",mmax=30,small=1e-14,nrmax=50,need_trun=True):
     prop_type = prop_type.lower()
     argdict = {'prop_type':prop_type}
     argdict['prop_type'] = argdict['prop_type'].lower()
@@ -202,7 +202,7 @@ class Schrodinger():
     for istep in range(1,nsteps):
       print("istep =", istep)
       if(argdict['prop_type']=="ksl"):
-        rin = ksltt(rin, self.pall, dt, mmax=mmax)
+        rin = tdvp(rin, self.pall, dt, update_type, mmax=mmax, small=small)
       else:
         rin = rk4(rin, self.pall, dt, small=small,nrmax=nrmax,need_trun=need_trun)
       pop = rin.calc_pop()
@@ -235,7 +235,7 @@ class Vibronic(Schrodinger):
     self.params = init_tds(fname,input_type)
     return
 
-class Frenkel_excition(Schrodinger):
+class Frenkel(Schrodinger):
   def __init__(self,fname=None,input_type="d",multi_mole=True):
     self.params = init_tds(fname,input_type,multi_mole)
     return
