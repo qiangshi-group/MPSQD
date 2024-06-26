@@ -102,8 +102,11 @@ def calc_rho(rin):
 def MPO2MPS(pall):
   rout = MPS(pall.length,pall.nb)
   for inode in pall.nodes:
-    ra1, rmid1, rmid2, ra2 = inode.shape
-    vtmp = np.reshape(inode,(ra1,rmid1*rmid2,ra2),order='F')
+    if(len(inode.shape)==4):
+      ra1, rmid1, rmid2, ra2 = inode.shape
+      vtmp = np.reshape(inode,(ra1,rmid1*rmid2,ra2),order='F')
+    else:
+      vtmp = inode
     rout.nodes.append(vtmp)
   return rout
 
@@ -118,7 +121,6 @@ def MPS2MPO(rin):
 def print_mps(rin,iflag="rank"):
   nlen = rin.length
   print("========================================")
-  print("tensor name")
   print("nlen=",nlen)
   for i in range(nlen):
     print("i=",i)
@@ -138,7 +140,6 @@ def print_mps(rin,iflag="rank"):
 def print_mpo(rin,iflag="rank"):
   nlen = rin.length
   print("========================================")
-  print("tensor name")
   print("nlen=",nlen)
   for i in range(nlen):
     print("i=",i)
@@ -150,8 +151,12 @@ def print_mpo(rin,iflag="rank"):
     print("data for the tensor")
     for i in range(nlen):
       print("----------- node:",i,"-----------------------------")
-      for j in range(rin.nodes[i].shape[1]):
-        for k in range(rin.nodes[i].shape[2]):
-          print(rin.nodes[i][:,j,k,:])
+      if(len(inode.shape)==4):
+        for j in range(rin.nodes[i].shape[1]):
+          for k in range(rin.nodes[i].shape[2]):
+            print(rin.nodes[i][:,j,k,:])
+      else:
+        for j in range(rin.nodes[i].shape[1]):
+          print(rin.nodes[i][:,j,:])
       print("--------end node:",i,"-----------------------------")
   return

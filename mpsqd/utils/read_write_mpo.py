@@ -43,16 +43,17 @@ def read_mpo_file(pall_file):
     for k in range(nlen):
       tmptensor = mpofile[str(k)]
       pall.nodes.append(tmptensor)
-      if (len(np.shape(tmptensor)) != 4):
+      if (not len(np.shape(tmptensor)) in [3,4]):
         print("Unexpected tensor: " + filename)
         sys.exit()
       if (np.shape(tmptensor)[0] != indexr):
         print("Mismatching ndim: " + filename)
         sys.exit()
-      if (np.shape(tmptensor)[1] != np.shape(tmptensor)[2]):
-        print("Mismatching ndim: " + filename)
-        sys.exit()
-      indexr = np.shape(tmptensor)[3]
+      if (len(np.shape(tmptensor)) == 4):
+        if (np.shape(tmptensor)[1] != np.shape(tmptensor)[2]):
+          print("Mismatching ndim: " + filename)
+          sys.exit()
+      indexr = np.shape(tmptensor)[-1]
       pall.nb[k] = np.shape(tmptensor)[1]
   except (KeyError, IndexError):
     print("Unexpected tensor: " + filename)
