@@ -131,7 +131,6 @@ def update_k_2sites(mmax,r1,r2,delta_t,m1,m2,phi1,phi2):
 # the first vector
   yy, kdims = contract_2mps(r1,r2)
   rtmp0 = np.sqrt(ddot2_sol(yy,yy))
-#  print(rtmp0)
   dy1 = vm[0] = 1.0/rtmp0*yy
 #--------------------------------------------
   for j in range(mmax):
@@ -146,6 +145,7 @@ def update_k_2sites(mmax,r1,r2,delta_t,m1,m2,phi1,phi2):
     if (rtmp < 1.e-13):
       yy = exvm(rtmp0,delta_t*hmat[:j+1,:j+1],vm[:j+1])
       return yy, kdims
+    yy = exvm(rtmp0,delta_t*hmat[:j+1,:j+1],vm[:j+1])
     if (j < mmax-1):
       hmat[j+1,j] = rtmp
     # need to get a new y0, otherwise not good....
