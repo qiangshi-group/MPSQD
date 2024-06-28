@@ -16,7 +16,7 @@ dt = 20
 
 # read/write pall
 read_pall = False
-write_pall = True#False
+write_pall = True
 
 # paramaters
 

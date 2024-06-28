@@ -27,7 +27,7 @@ def main():
     pall = MPS2MPO(pall)
     if (pa.write_pall):
       # write the MPO to file
-      pall = write_mpo_file('pbi_tensor')
+      pall = write_mpo_file(pall,'pbi_tensor')
 
   print("++pall done++")
 

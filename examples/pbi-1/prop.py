@@ -1,6 +1,6 @@
 from time import time
 import numpy as np
-import mpsqd.ksltt as ksl
+from mpsqd.tdvp import tdvp1
 import sys
 from mpsqd.utils import calc_overlap
 import params as pa
@@ -31,7 +31,7 @@ def prop(rin, pall):
   for istep in range(1,pa.nsteps+1):
     print("istep =", istep)
     # the propagation step for hsys
-    rin = ksl.ksltt(rin, pall, pa.dt, mmax=pa.mmax)
+    rin = tdvp1(rin, pall, pa.dt, mmax=pa.mmax)
     pop = rin.calc_pop()
     acf = calc_overlap(rin,rin0)
     output = (str(istep*pa.dt*au2fs)+ s1)
