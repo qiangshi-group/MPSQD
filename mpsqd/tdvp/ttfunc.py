@@ -53,7 +53,7 @@ def ddot2_sol(vec1, vec2):
 
   return ddot2
 
-def delta_ksol_td(m1,m2,phi1,phi2,y1,kdims):
+def delta_ksol_td(m1,m2,phi1,phi2,y1,kdims,small,nrmax):
 #                               1                             0             0
 #          |__|__|__|        0__|__3             1            |__1       1__|
 #           \_|__|_/    mpo     |      mps    0__|__2  phi1   |     phi2    | 
@@ -62,7 +62,7 @@ def delta_ksol_td(m1,m2,phi1,phi2,y1,kdims):
   rx1 = phi1.shape[0]
   rx2 = phi2.shape[2]
 
-  r1,r2 = split_svd_qr_2tdvp(y1,kdims,small=1e-7)
+  r1,r2 = split_svd_qr_2tdvp(y1,kdims,small=small,nrmax=nrmax)
   rtmp2 = np.tensordot(phi1,r1,axes=((2),(0)))
   rtmp3 = np.tensordot(rtmp2,m1,axes=((1,2),(0,2)))
   rtmp4 = np.tensordot(r2,phi2,axes=((2),(2)))
@@ -124,7 +124,7 @@ def expmv(mmax, dt, yy, phi1, phi2, mat1=None):
   yy = exvm(rtmp0,dt*hmat[:j+1,:j+1],vm[:j+1])
   return yy
 
-def update_k_2sites(mmax,r1,r2,delta_t,m1,m2,phi1,phi2):
+def update_k_2sites(mmax,r1,r2,delta_t,m1,m2,phi1,phi2,small,nrmax):
 #----------------------
   vm = np.empty((mmax,r1.shape[0],r1.shape[1]*r2.shape[1],r2.shape[2]),dtype=np.complex128)
   hmat = np.zeros((mmax,mmax),dtype=np.complex128)
@@ -134,7 +134,7 @@ def update_k_2sites(mmax,r1,r2,delta_t,m1,m2,phi1,phi2):
   dy1 = vm[0] = 1.0/rtmp0*yy
 #--------------------------------------------
   for j in range(mmax):
-    dy1 = delta_ksol_td(m1,m2,phi1,phi2,dy1,kdims)
+    dy1 = delta_ksol_td(m1,m2,phi1,phi2,dy1,kdims,small,nrmax)
     # calculate the overlap
     hmat[:j+1,j] = np.dot(np.conj(vm[:j+1]).reshape(j+1,-1), dy1.reshape(-1))
     # orthogonaization 

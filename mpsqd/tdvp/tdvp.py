@@ -141,7 +141,7 @@ def tdvp1(rin,pall,dt,update_type='krylov',mmax=30):
 
   return r3
 
-def tdvp2(rin,pall,dt,mmax=30,small=1e-13):
+def tdvp2(rin,pall,dt,mmax=30,small=1e-13,nrmax=50):
 # 2tdvp: 2sites update in krylov iteration
   dt2 = 0.5*dt
 
@@ -195,9 +195,9 @@ def tdvp2(rin,pall,dt,mmax=30,small=1e-13):
       r_i = r1.nodes[i]
     else:
       r_i = r2.nodes[i]
-    ksol, kdims = ttf.update_k_2sites(mmax,r_i,r1.nodes[i+1],dt2,pall.nodes[i],pall.nodes[i+1],phi1,phi2)
+    ksol, kdims = ttf.update_k_2sites(mmax,r_i,r1.nodes[i+1],dt2,pall.nodes[i],pall.nodes[i+1],phi1,phi2,small,nrmax)
 
-    q, r = split_svd_qr_2tdvp(ksol,kdims,small)
+    q, r = split_svd_qr_2tdvp(ksol,kdims,small,nrmax)
 
     if (i == 0):
       r2.nodes.append(q)
@@ -221,9 +221,9 @@ def tdvp2(rin,pall,dt,mmax=30,small=1e-13):
       r_i = r2.nodes[i]
     else:
       r_i = r3.nodes[nlen-1-i]
-    ksol, kdims = ttf.update_k_2sites(mmax,r2.nodes[i-1],r_i,dt2,pall.nodes[i-1],pall.nodes[i],phi1,phi2)
+    ksol, kdims = ttf.update_k_2sites(mmax,r2.nodes[i-1],r_i,dt2,pall.nodes[i-1],pall.nodes[i],phi1,phi2,small,nrmax)
 
-    r, q = split_svd_rq_2tdvp(ksol,kdims,small)
+    r, q = split_svd_rq_2tdvp(ksol,kdims,small,nrmax)
 
     if (i == nlen-1):
       r3.nodes.append(q)
