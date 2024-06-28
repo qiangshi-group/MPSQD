@@ -1,9 +1,9 @@
 from time import time
 import numpy as np
 import params as pa
-import mpsqd.ksltt as ksl
+from mpsqd.tdvp import tdvp1
 
-
+au2fs = 2.418884254e-2
 def prop(rin, pall):
 
   s1 = "  "
@@ -11,13 +11,6 @@ def prop(rin, pall):
 #==============================================
   # time step 0
   rho1 = rin.calc_rho()
-  output = (str(0.0)+ s1 + str(rho1[0,0].real)
-                + s1 + str(rho1[1,1].real)+'\n')
-
-  fp = open('output.dat','w')
-  fp.write(output)
-  fp.flush()
- 
 #--------------------------------------------
   fp1 = []
   for i in range(pa.ndvr):
@@ -38,15 +31,8 @@ def prop(rin, pall):
     print("istep =", istep)
 
     # the propagation step for hsys
-    rin = ksl.ksltt(rin, pall, pa.dt)
-
+    rin = tdvp1(rin, pall, pa.dt)
     rho1 = rin.calc_rho()
-    output = (str(istep*pa.dt*pa.au2fs)+ s1 + str(rho1[0,0].real) \
-             + s1 + str(rho1[1,1].real)+'\n')
-
-    # write to files
-    fp.writelines(output)
-    fp.flush()
 
 #-------------------------------------------
     for i in range(pa.ndvr):
@@ -56,6 +42,5 @@ def prop(rin, pall):
 
 
 #-------------------------------------------
-  fp.close()
   for i in range(pa.ndvr):
     fp1[i].close()

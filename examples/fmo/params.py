@@ -5,7 +5,7 @@ import numpy as np
 pie = 3.1415926535897932
 small = 1e-14
 mmax = 7
-nb1 = 5
+nb1 = 3
 nrtt = 80
 nrmax = 60
 nsteps = 400
