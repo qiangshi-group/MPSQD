@@ -1,0 +1,60 @@
+#-------------------------------------------------
+#  Hamiltonian Section
+#-------------------------------------------------
+Energy_Unit = au
+
+# Electronic part
+nstate  =  1
+nmole   =  6
+V_S0_S1 =  -0.002352
+V_S1_S2 =  -0.002352
+V_S2_S3 =  -0.002352
+V_S3_S4 =  -0.002352
+V_S4_S5 =  -0.002352
+
+# Nuclear part
+nmode = 10
+
+# Mode List
+modes  | v0 | v1 | v2 | v3 | v4 | v5 | v6 | v7 | v8 | v9
+
+# Frequencies
+omega_v0 = 0.0009386
+omega_v1 = 0.0009614
+omega_v2 = 0.0024604
+omega_v3 = 0.0025150
+omega_v4 = 0.0034218
+omega_v5 = 0.0060371
+omega_v6 = 0.0062467
+omega_v7 = 0.0066933
+omega_v8 = 0.0071534
+omega_v9 = 0.0074177
+
+#Coupling Coefficients
+kl_S0_v0 =  0.0005892
+kl_S0_v1 =  0.0006304
+kl_S0_v2 =  0.0004796
+kl_S0_v3 =  0.0006842
+kl_S0_v4 =  0.0008791
+kl_S0_v5 =  0.0008538
+kl_S0_v6 =  0.0040290
+kl_S0_v7 =  0.0019399
+kl_S0_v8 =  0.0029145
+kl_S0_v9 =  0.0020717
+
+#------------------------------------------------
+#    Propagation parameters
+#------------------------------------------------
+time_unit  = au
+dt         = 20.6707
+nsteps     = 600
+small      = 1e-13
+mmax       = 20
+nbv        = 20
+nrtt       = 50
+nrmax      = 50
+tol        = 1e-15
+init_state = 0
+custom_nb  = False
+read_pall  = False
+write_pall = False
