@@ -1,6 +1,6 @@
 import numpy as np
 import params as pa
-import mpsqd.ksltt as ksl
+from mpsqd.tdvp import tdvp1
 
 def prop(rin, pall):
   s1 = "  "
@@ -23,7 +23,7 @@ def prop(rin, pall):
     print("istep =", istep)
 
     # the propagation step for hsys
-    rin = ksl.ksltt(rin, pall, pa.dt)
+    rin = tdvp1(rin, pall, pa.dt)
 
     rho1 = rin.calc_rho()
 

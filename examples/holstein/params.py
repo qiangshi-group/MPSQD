@@ -29,7 +29,6 @@ nb2    = nb1
 
 # read/write pall
 write_pall = False
-pall_file = "pallDimer0"
 
 # paramaters
 
