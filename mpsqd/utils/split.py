@@ -58,11 +58,11 @@ def split_svd_rq(xx,small,nrmax):
   return u2, q1
 
 # reshape to U and V ,U is left orthogonal
-def split_svd_qr_2tdvp(xx,kdims,small):
+def split_svd_qr_2tdvp(xx,kdims,small,nrmax):
   #----------------------
   # do the svd
   yy = np.reshape(xx,(kdims[0]*kdims[1], kdims[2]*kdims[3]))
-  u2, vt2, s1, jmax = split_svd(yy,small,nrmax=0)
+  u2, vt2, s1, jmax = split_svd(yy,small,nrmax)
   for i in range(jmax):
     vt2[i,:]  *= s1[i]
 
@@ -74,11 +74,11 @@ def split_svd_qr_2tdvp(xx,kdims,small):
   return q1, v3
 
 # reshape to U and V ,V is right orthogonal
-def split_svd_rq_2tdvp(xx,kdims,small):
+def split_svd_rq_2tdvp(xx,kdims,small,nrmax):
   #----------------------
   # do the svd
   yy = np.reshape(xx,(kdims[0]*kdims[1], kdims[2]*kdims[3]))
-  u2, vt2, s1, jmax = split_svd(yy,small,nrmax=0)
+  u2, vt2, s1, jmax = split_svd(yy,small,nrmax)
   for i in range(jmax):
     u2[:,i]  *= s1[i]
 

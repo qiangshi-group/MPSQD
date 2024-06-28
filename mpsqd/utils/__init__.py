@@ -5,7 +5,7 @@ from .read_write_mpo import read_mpo_file, write_mpo_file, read_mps_file, write_
 import sys
 au2fs = 2.418884254e-2
 
-def prod_tensor_mat(pall,rin,small=1e-14,nrmax=50,need_trun=True):
+def multiply_tensor(pall,rin,small=1e-14,nrmax=50,need_trun=True):
   argdict = {'small':small,'nrmax':nrmax,'need_trun':need_trun}
   try:
     for key in ['nrmax']:
@@ -72,7 +72,7 @@ def add_tensor(r1,r2,coeff=1,small=1e-14,nrmax=50,need_trun=True):
   if r1.__class__.__name__=='MPO' and r2.__class__.__name__=='MPO':
     return MPS2MPO(_add_tensor(MPO2MPS(r1),MPO2MPS(r2),argdict['coeff'],argdict['small'],argdict['nrmax'],argdict['need_trun']))
 
-def trun_tensor(rin,small=1e-14,nrmax=50):
+def truncate_tensor(rin,small=1e-14,nrmax=50):
   argdict = {'small':small,'nrmax':nrmax}
   try:
     for key in ['nrmax']:
