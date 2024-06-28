@@ -21,7 +21,7 @@ def main():
   pall = cst.construct()
   if (pa.write_pall):
     # write the MPO to file
-    write_mpo_file(pall,pa.pall_file)
+    write_mpo_file(pall,'sp_tensor')
 
   print("++pall done++")
 

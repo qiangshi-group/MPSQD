@@ -21,7 +21,6 @@ dt = 0.02
 
 # read/write pall
 write_pall = False
-pall_file = "pallDimer0"
 
 # paramaters
 nmps = nlevel+2
