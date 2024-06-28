@@ -1,6 +1,6 @@
 import numpy as np
 from ..rk4 import rk4
-from ..tdvp import tdvp
+from ..tdvp import tdvp1, tdvp2
 from ..utils import MPS, MPO, write_mps_file, write_mpo_file
 from .construct_sb import construct_sb as _construct_sb
 from .construct_holstein import construct_holstein as _construct_holstein
@@ -95,11 +95,11 @@ def init_mps(rho0,nlevel,nbv,nrtt=1,small=1e-14,need_trun=True):
   return argdict, _init_mps(rho0,argdict['nlevel'],nb,argdict['nrtt'],argdict['small'],argdict['need_trun'])
 
 class HEOM():
-  def prop(self,dt,nsteps,out_file_name="output.dat",prop_type="ksl",update_type="krylov",mmax=30,small=1e-13,nrmax=50,need_trun=True):
+  def prop(self,dt,nsteps,out_file_name="output.dat",prop_type="1tdvp",update_type="krylov",mmax=30,small=1e-13,nrmax=50,need_trun=True):
     argdict = {'prop_type':prop_type}
     argdict['prop_type'] = argdict['prop_type'].lower()
-    if (not(argdict['prop_type'] in ['ksl','rk4'])):
-      print("Wrong value in Spin_boson.prop: prop_type=",prop_type)
+    if (not(argdict['prop_type'] in ['1tdvp','2tdvp','rk4'])):
+      print("Wrong value in HEOM.prop: prop_type=",prop_type)
       sys.exit()
     ndvr = self.rin.ndim()[1,0]
     rout = np.zeros((int(ndvr*(ndvr+1)/2+1),nsteps),dtype=np.complex128)
@@ -120,10 +120,12 @@ class HEOM():
     fp.flush()
     for istep in range(1,nsteps):
       print("istep =", istep)
-      if(argdict['prop_type']=="ksl"):
-        rin = tdvp(rin, self.pall, dt, update_type, mmax=mmax, small=small)
-      else:
+      if(argdict['prop_type']=="1tdvp"):
+        rin = tdvp1(rin, self.pall, dt, update_type, mmax=mmax)
+      elif(argdict['prop_type']=="rk4"):
         rin = rk4(rin, self.pall, dt, small=small,nrmax=nrmax,need_trun=need_trun)
+      else:
+        rin = tdvp2(rin, self.pall, dt, mmax=mmax, small=small, nrmax=nrmax)
       rho1 = rin.calc_rho()
       output = str(istep*dt) + s1
       for i in range(ndvr):
@@ -162,26 +164,26 @@ class Holstein(HEOM):
     return
 
 class Schrodinger():
-  def construct(self,construct_type0=None):
+  def construct(self,construct_type=None):
     try:
-      if(construct_type0 == None):
-        construct_type = None
+      if(construct_type == None):
+        construct_type1 = None
       else:
-        construct_type = str(construct_type0.lower())
-        if (not construct_type in ['simple','term']):
+        construct_type1 = str(construct_type.lower())
+        if (not construct_type1 in ['simple','term']):
           print("Unrecognized construct_type in Schrodinger.construct: ",construct_type0," . Default construct_type will be used.")
-          construct_type = None
+          construct_type1 = None
     except (AttributeError):
       print("Unrecognized construct_type in Schrodinger.construct: ",construct_type0," . Default construct_type will be used.")
-      construct_type = None
-    self.pall,self.rin = construct_tds(self.params,construct_type)
+      construct_type1 = None
+    self.pall,self.rin = construct_tds(self.params,construct_type1)
     return
 
-  def prop(self,dt,nsteps,out_file_name="output.dat",prop_type="ksl",update_type="krylov",mmax=30,small=1e-14,nrmax=50,need_trun=True):
+  def prop(self,dt,nsteps,out_file_name="output.dat",prop_type="1tdvp",update_type="krylov",mmax=30,small=1e-14,nrmax=50,need_trun=True):
     prop_type = prop_type.lower()
     argdict = {'prop_type':prop_type}
     argdict['prop_type'] = argdict['prop_type'].lower()
-    if (not(argdict['prop_type'] in ['ksl','rk4'])):
+    if (not(argdict['prop_type'] in ['1tdvp','2tdvp','rk4'])):
       print("Wrong value in Schrodinger.prop: prop_type=",prop_type)
       sys.exit()
     s1 = "  "
@@ -201,10 +203,12 @@ class Schrodinger():
     fp.flush()
     for istep in range(1,nsteps):
       print("istep =", istep)
-      if(argdict['prop_type']=="ksl"):
-        rin = tdvp(rin, self.pall, dt, update_type, mmax=mmax, small=small)
-      else:
+      if(argdict['prop_type']=="1tdvp"):
+        rin = tdvp1(rin, self.pall, dt, update_type, mmax=mmax)
+      elif(argdict['prop_type']=="rk4"):
         rin = rk4(rin, self.pall, dt, small=small,nrmax=nrmax,need_trun=need_trun)
+      else:
+        rin = tdvp2(rin, self.pall, dt, mmax=mmax, small=small, nrmax=nrmax)
       pop = rin.calc_pop()
       rout[0,istep] = istep*dt
       for i in range(ndvr):
