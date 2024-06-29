@@ -1,12 +1,12 @@
 import numpy as np
 import params as pa
-from mpsqd.tdvp import tdvp1
+from mpsqd.tdvp import tdvp1site
 
 def prop(rin, pall):
   s1 = "  "
 #==============================================
   # time step 0
-  rho1 = rin.calc_rho()
+  rho1 = calc_rho(rin)
 
   output = (str(0)+ s1 + str(rho1[0,0].real)
                 + s1 + str(rho1[1,1].real)
@@ -23,9 +23,9 @@ def prop(rin, pall):
     print("istep =", istep)
 
     # the propagation step for hsys
-    rin = tdvp1(rin, pall, pa.dt)
+    rin = tdvp1site(rin, pall, pa.dt)
 
-    rho1 = rin.calc_rho()
+    rho1 = calc_rho(rin)
 
     output = (str(istep*pa.dt) + s1 + str(rho1[0,0].real)
                 + s1 + str(rho1[1,1].real)
