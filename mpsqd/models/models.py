@@ -1,6 +1,7 @@
 import numpy as np
+import sys
 from ..rk4 import rk4
-from ..tdvp import tdvp1, tdvp2
+from ..tdvp import tdvp1site, tdvp2site
 from ..utils import MPS, MPO, write_mps_file, write_mpo_file
 from .construct_sb import construct_sb as _construct_sb
 from .construct_holstein import construct_holstein as _construct_holstein
@@ -121,11 +122,11 @@ class HEOM():
     for istep in range(1,nsteps):
       print("istep =", istep)
       if(argdict['prop_type']=="1tdvp"):
-        rin = tdvp1(rin, self.pall, dt, update_type, mmax=mmax)
+        rin = tdvp1site(rin, self.pall, dt, update_type, mmax=mmax)
       elif(argdict['prop_type']=="rk4"):
         rin = rk4(rin, self.pall, dt, small=small,nrmax=nrmax,need_trun=need_trun)
       else:
-        rin = tdvp2(rin, self.pall, dt, mmax=mmax, small=small, nrmax=nrmax)
+        rin = tdvp2site(rin, self.pall, dt, mmax=mmax, small=small, nrmax=nrmax)
       rho1 = rin.calc_rho()
       output = str(istep*dt) + s1
       for i in range(ndvr):
@@ -204,11 +205,11 @@ class Schrodinger():
     for istep in range(1,nsteps):
       print("istep =", istep)
       if(argdict['prop_type']=="1tdvp"):
-        rin = tdvp1(rin, self.pall, dt, update_type, mmax=mmax)
+        rin = tdvp1site(rin, self.pall, dt, update_type, mmax=mmax)
       elif(argdict['prop_type']=="rk4"):
         rin = rk4(rin, self.pall, dt, small=small,nrmax=nrmax,need_trun=need_trun)
       else:
-        rin = tdvp2(rin, self.pall, dt, mmax=mmax, small=small, nrmax=nrmax)
+        rin = tdvp2site(rin, self.pall, dt, mmax=mmax, small=small, nrmax=nrmax)
       pop = rin.calc_pop()
       rout[0,istep] = istep*dt
       for i in range(ndvr):
