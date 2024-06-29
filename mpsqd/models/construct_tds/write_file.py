@@ -66,15 +66,17 @@ def write_file_define(params,filename):
             fp.write(output)
   fp.write("\n")
   for key in ['small','nrtt','nrmax','init_state','custom_nb']:
-    output = key+" = "+str(params[key])+"\n"
-    fp.write(output)
-  if (params['custom_nb']==False):
-    output = 'nbv'+" = "+str(params['nbv'])+"\n"
-    fp.write(output)
-  else:
-    fp.write("\n")
-    for i in range(params['nlevel']):
-      output = "v"+str(i)+" = "+str(params['nb1'][i])+"\n"
+    if (key in params.keys()):
+      output = key+" = "+str(params[key])+"\n"
       fp.write(output)
-  fp.flush()
+  if ('custom_nb' in params.keys()):
+    if (params['custom_nb']==False):
+      output = 'nbv'+" = "+str(params['nbv'])+"\n"
+      fp.write(output)
+    else:
+      fp.write("\n")
+      for i in range(params['nlevel']):
+        output = "v"+str(i)+" = "+str(params['nb1'][i])+"\n"
+        fp.write(output)
+    fp.flush()
   return

@@ -29,7 +29,7 @@ class GetParameters(object):
     self.inp = self.get_inp_para(inpfr)
     print("inp file: " + self.inp_file)
 
-    default = {}
+    default_value = {}
     default_value['custom_nb'] = False
     default_value['need_trun'] = True
     default_value['nrmax'] = 0
