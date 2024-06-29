@@ -1,9 +1,9 @@
 from time import time
 import numpy as np
-from mpsqd.tdvp import tdvp1
+from mpsqd.tdvp import tdvp1site
 import sys
-from mpsqd.utils import calc_overlap
 import params as pa
+from calc_wave import calc_pop, calc_overlap
 
 au2fs = 2.418884254e-2
 def prop(rin, pall):
@@ -13,7 +13,7 @@ def prop(rin, pall):
 #==============================================
   # time step 0
   output = (str(0.0)+ s1)
-  pop = rin.calc_pop()
+  pop = calc_pop(rin)
   acf = calc_overlap(rin,rin0)
   ndvr = np.shape(pall.nodes[0])[1]
   for i in range(ndvr):
@@ -32,8 +32,8 @@ def prop(rin, pall):
   for istep in range(1,pa.nsteps+1):
     print("istep =", istep)
     # the propagation step for hsys
-    rin = tdvp1(rin, pall, pa.dt, mmax=pa.mmax)
-    pop = rin.calc_pop()
+    rin = tdvp1site(rin, pall, pa.dt, mmax=pa.mmax)
+    pop = calc_pop(rin)
     acf = calc_overlap(rin,rin0)
     output = (str(istep*pa.dt*au2fs)+ s1)
     for i in range(ndvr):
