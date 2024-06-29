@@ -24,24 +24,10 @@ for i in range(pa.nbv):
     if (i == j-2):
       xtmp2[i,j] = 0.5*np.sqrt(j*(j-1))
 
-#def construct():
-#
-#  pall00 = mpo(0, 0, -md.delta, md.acoef, md.a2coef)
-#
-#  pall11 = mpo(1, 1, md.delta, md.bcoef, md.b2coef)
-#  pall = add_tensor(pall00, pall11, 1.0,pa.small,pa.nrmax)
-#
-#  pall01 = mpo(0, 1, 0.0, md.ccoef, md.c2coef)
-#  pall = add_tensor(pall, pall01, 1.0,pa.small,pa.nrmax)
-#
-#  print("pall constructed...")
-#  print("shape of pall =", pall.ndim())
-#
-#  return pall
 def construct():
   for i in range(pa.ndvr):
     for j in range(i,pa.ndvr):
-      temppall = mpo(i, j, md.e0[i,j], md.coef1[i,j,:], md.coef2[i,j,:,:])
+      temppall = delta_all5(i, j, md.e0[i,j], md.coef1[i,j,:], md.coef2[i,j,:,:])
       if (i == 0 and j == 0):
         pall = temppall.copy()
       else:
@@ -53,39 +39,13 @@ def construct():
 
   return pall
 
+
 #============================================================
 # coef1 and coef2 are the first and second order coefficients
-def mpo(i1, j1, delta, coef1, coef2):
+def delta_all5(i1, j1, delta, coef1, coef2):
 
-#------------------------------------------------------
 # vmid is a template with identity matrix
-  vmid = []
-#------------------------------------------------------
-# construct vl
-  vl = np.zeros((1, pa.nb[0]**2, 1),dtype=np.complex128)
-  # diagonal term
-  if (i1 == j1):
-    idiag = 1
-    ii = i1*pa.nb[0]+i1
-    vl[0,ii,0] = 1.0
-  # off-diagonal terms  
-  else:
-    idiag = 0
-    ii = i1*pa.nb[0]+j1
-    vl[0,ii,0] = 1.0
-
-    ii = j1*pa.nb[0]+i1
-    vl[0,ii,0] = 1.0
-
-  vmid.append(vl)
-
-#------------------------------------------------------
-# other terms for the vibrational modes
-  for i in range(pa.nlevel):
-    vtmp = np.zeros((1, pa.nb[i+1], 1),dtype=np.complex128)
-    # this is a indentity matrix
-    vtmp[0,:,0] = 1.0
-    vmid.append(vtmp)
+  vmid,idiag = gen_identy_mpo(i1,j1)
 
 #======================================================
   mpo = MPS(pa.nmps)
@@ -178,3 +138,33 @@ def mpo(i1, j1, delta, coef1, coef2):
   return mpo
 
 
+def gen_identy_mpo(i1,j1):
+#------------------------------------------------------
+  vmid = []
+#------------------------------------------------------
+# construct vl
+  vl = np.zeros((1, pa.nb[0]**2, 1),dtype=np.complex128)
+  # diagonal term
+  if (i1 == j1):
+    idiag = 1
+    ii = i1*pa.nb[0]+i1
+    vl[0,ii,0] = 1.0
+  # off-diagonal terms  
+  else:
+    idiag = 0
+    ii = i1*pa.nb[0]+j1
+    vl[0,ii,0] = 1.0
+
+    ii = j1*pa.nb[0]+i1
+    vl[0,ii,0] = 1.0
+
+  vmid.append(vl)
+
+#------------------------------------------------------
+# other terms for the vibrational modes
+  for i in range(pa.nlevel):
+    vtmp = np.zeros((1, pa.nb[i+1], 1),dtype=np.complex128)
+    # this is a indentity matrix
+    vtmp[0,:,0] = 1.0
+    vmid.append(vtmp)
+  return vmid, idiag
