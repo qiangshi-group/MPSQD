@@ -1,7 +1,8 @@
 from time import time
 import numpy as np
 import params as pa
-from mpsqd.tdvp import tdvp1
+from mpsqd.tdvp import tdvp1site
+from calc_rho import calc_rho
 
 au2fs = 2.418884254e-2
 def prop(rin, pall):
@@ -10,7 +11,7 @@ def prop(rin, pall):
 
 #==============================================
   # time step 0
-  rho1 = rin.calc_rho()
+  rho1 = calc_rho(rin)
 #--------------------------------------------
   fp1 = []
   for i in range(pa.ndvr):
@@ -31,8 +32,8 @@ def prop(rin, pall):
     print("istep =", istep)
 
     # the propagation step for hsys
-    rin = tdvp1(rin, pall, pa.dt)
-    rho1 = rin.calc_rho()
+    rin = tdvp1site(rin, pall, pa.dt)
+    rho1 = calc_rho(rin)
 
 #-------------------------------------------
     for i in range(pa.ndvr):
