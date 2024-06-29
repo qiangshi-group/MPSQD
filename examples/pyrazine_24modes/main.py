@@ -20,14 +20,14 @@ def main():
 # get pall
   if (pa.read_pall):
     # read MPO from file
-    pall = read_mpo_file('py_tensor')
+    pall = read_mpo_file('24py_tensor')
   else:
     # construct the MPO
     pall = cst.construct()
     pall = MPS2MPO(pall)
     if (pa.write_pall):
       # write the MPO to file
-      write_mpo_file(pall,'py_tensor')
+      write_mpo_file(pall,'24py_tensor')
 ##----------------------------------------
 #  # read MPO from file
 #  pall = read_mpo_file('py_tensor')
