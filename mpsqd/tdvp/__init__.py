@@ -1,7 +1,7 @@
 from .tdvp import tdvp1 as _tdvp1
 from .tdvp import tdvp2 as _tdvp2
 import sys
-def tdvp1(rin,pall,dt,update_type='krylov',mmax=30,nsteps=1):
+def tdvp1site(rin,pall,dt,update_type='krylov',mmax=30,nsteps=1):
   argdict = {'dt':dt,'mmax':mmax,'nsteps':nsteps,'update_type':update_type}
   try:
     for key in ['nsteps','mmax']:
@@ -29,7 +29,7 @@ def tdvp1(rin,pall,dt,update_type='krylov',mmax=30,nsteps=1):
   for istep in range(nsteps):
     rin = _tdvp1(rin,pall,argdict['dt'],argdict['update_type'],argdict['mmax'])
   return rin
-def tdvp2(rin,pall,dt,mmax=30,small=1e-13,nrmax=50,nsteps=1):
+def tdvp2site(rin,pall,dt,mmax=30,small=1e-13,nrmax=50,nsteps=1):
   argdict = {'dt':dt,'mmax':mmax,'small':small,'nrmax':nrmax,'nsteps':nsteps}
   try:
     for key in ['nsteps','mmax']:
@@ -56,4 +56,3 @@ def tdvp2(rin,pall,dt,mmax=30,small=1e-13,nrmax=50,nsteps=1):
   for istep in range(nsteps):
     rin = _tdvp2(rin,pall,argdict['dt'],argdict['mmax'],argdict['small'],argdict['nrmax'])
   return rin
-__all__=["tdvp1","tdvp2"]
