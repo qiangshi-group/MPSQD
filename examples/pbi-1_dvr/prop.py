@@ -1,8 +1,8 @@
 from time import time
 import numpy as np
 import params as pa
-from mpsqd.tdvp import tdvp1
-from mpsqd.utils import calc_overlap
+from mpsqd.tdvp import tdvp1site
+from calc_wave import calc_pop
 
 au2fs = 2.418884254e-2
 
@@ -12,7 +12,7 @@ def prop(rin, pall):
 
 #==============================================
   # time step 0
-  pop = rin.calc_pop()
+  pop = calc_pop(rin)
   output = (str(0.0)+ s1)
   ndvr = np.shape(pall.nodes[0])[1]
   for i in range(ndvr):
@@ -33,13 +33,13 @@ def prop(rin, pall):
     # the half step for the kinetic part
     rin = pro_rho_kinet(rin)
     # the propagation step for hsys
-    rin = tdvp1(rin, pall, pa.dt, mmax=pa.mmax)
+    rin = tdvp1site(rin, pall, pa.dt, mmax=pa.mmax)
 
     # another half step for the kinetic part
     rin = pro_rho_kinet(rin)
 
 #---------------------------------------------------
-    pop = rin.calc_pop()
+    pop = calc_pop(rin)
     output = (str(istep*pa.dt*au2fs)+ s1)
     for i in range(ndvr):
       output = output + str(pop[i].real) + s1

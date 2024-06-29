@@ -42,26 +42,7 @@ def mpo(i1, j1, delta, coef1, coef2):
 
 #------------------------------------------------------
 # vmid is a template with identity matrix
-  vmid = []
-#------------------------------------------------------
-# construct vl
-  vl = np.zeros((1, pa.nb[0]**2, 1),dtype=np.complex128)
-  # diagonal term
-  if (i1 == j1):
-    idiag = 1
-    ii = i1*pa.nb[0]+i1
-    vl[0,ii,0] = 1.0
-  # off-diagonal terms  
-  else:
-    idiag = 0
-    ii = i1*pa.nb[0]+j1
-    vl[0,ii,0] = 1.0
-
-    ii = j1*pa.nb[0]+i1
-    vl[0,ii,0] = 1.0
-
-  vmid.append(vl)
-
+  vmid,idiag = gen_identy_mpo(i1,j1)
 #------------------------------------------------------
 # other terms for the vibrational modes
   for i in range(pa.nlevel):
@@ -161,3 +142,24 @@ def mpo(i1, j1, delta, coef1, coef2):
   return mpo
 
 
+def gen_identy_mpo(i1,j1):
+  vmid = []
+#------------------------------------------------------
+# construct vl
+  vl = np.zeros((1, pa.nb[0]**2, 1),dtype=np.complex128)
+  # diagonal term
+  if (i1 == j1):
+    idiag = 1
+    ii = i1*pa.nb[0]+i1
+    vl[0,ii,0] = 1.0
+  # off-diagonal terms  
+  else:
+    idiag = 0
+    ii = i1*pa.nb[0]+j1
+    vl[0,ii,0] = 1.0
+
+    ii = j1*pa.nb[0]+i1
+    vl[0,ii,0] = 1.0
+
+  vmid.append(vl)
+  return vmid,idiag
