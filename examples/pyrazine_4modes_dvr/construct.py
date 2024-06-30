@@ -4,26 +4,6 @@ import params as pa
 import model as md
 from mpsqd.utils import add_tensor, MPS
 
-# xtmp is the matrix for the x operator...
-xtmp = np.zeros((pa.nbv, pa.nbv),dtype=np.complex128)
-for i in range(pa.nbv):
-  for j in range(pa.nbv):
-    if (i == j-1):
-      xtmp[i,j] = np.sqrt(0.5 * j)
-    if (i == j+1):
-      xtmp[i,j] = np.sqrt(0.5 * i)
-
-# xtmp2 is the matrix for the x2 operator...
-xtmp2 = np.zeros((pa.nbv, pa.nbv),dtype=np.complex128)
-for i in range(pa.nbv):
-  for j in range(pa.nbv):
-    if (i == j):
-      xtmp2[i,j] = (0.5+j)
-    if (i == j+2):
-      xtmp2[i,j] = 0.5*np.sqrt(i*(i-1))
-    if (i == j-2):
-      xtmp2[i,j] = 0.5*np.sqrt(j*(j-1))
-
 def construct():
   for i in range(pa.ndvr):
     for j in range(i,pa.ndvr):
