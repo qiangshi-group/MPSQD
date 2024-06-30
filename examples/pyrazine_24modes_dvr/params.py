@@ -12,7 +12,7 @@ nlevel = md.nmode
 nmps = nlevel + 1
 nrtt = 120
 nrmax = 50
-nsteps = 100
+nsteps = 10
 dt = 10.6707
 
 read_pall = False
