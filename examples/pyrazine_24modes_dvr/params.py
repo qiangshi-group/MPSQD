@@ -6,7 +6,7 @@ import dvr
 # constants
 small = 1e-13
 ndvr = 2
-mmax = 20
+mmax = 40
 nbv = 110
 nlevel = md.nmode
 nmps = nlevel + 1
