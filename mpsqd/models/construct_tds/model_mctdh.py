@@ -152,7 +152,7 @@ class GetParameters(object):
     data_re = self.get_all(fr)
     nb1 = np.zeros(self.inp['nmode'], dtype=int)
     for item in data_re:
-      if re.search('modes\|', item):
+      if re.search('modes\\|', item):
         for mode in item.replace('modes|', '').split('|'):
           if mode != 'el':
             try:
@@ -189,29 +189,29 @@ class GetParameters(object):
             param = float(value)
           parameters[key] = param
       for k in data_re:
-        if re.search(u'\|\ds\d+&\d+\|\d+q\^2', k):
-          result = re.search(u'(\w+).*?s(\d+).*?(\d+)\|(\d+).*', k)
+        if re.search(u'\\|\\ds\\d+&\\d+\\|\\d+q\\^2', k):
+          result = re.search(u'(\\w+).*?s(\\d+).*?(\\d+)\\|(\\d+).*', k)
           key, istate1, istate2, imode = result.groups()
           coef2[int(istate1)-1, int(istate2)-1, int(imode)-2, int(imode)-2] = parameters[key]
           coef2[int(istate2)-1, int(istate1)-1, int(imode)-2, int(imode)-2] = parameters[key]
-        elif re.search(u'\|\ds\d+&\d+\|\d+q\|\d+q', k):
-          result = re.search(u'.*\*(\w+).*?s(\d+).*?(\d+)\|(\d+).*\|(\d+).*', k)
+        elif re.search(u'\\|\\ds\\d+&\\d+\\|\\d+q\\|\\d+q', k):
+          result = re.search(u'.*\\*(\\w+).*?s(\\d+).*?(\\d+)\\|(\\d+).*\\|(\\d+).*', k)
           key, istate1, istate2, imode1, imode2 = result.groups()
           coef2[int(istate1)-1, int(istate2)-1, int(imode1)-2, int(imode2)-2] = parameters[key]
           coef2[int(istate1)-1, int(istate2)-1, int(imode2)-2, int(imode1)-2] = parameters[key]
           coef2[int(istate2)-1, int(istate1)-1, int(imode1)-2, int(imode2)-2] = parameters[key]
           coef2[int(istate2)-1, int(istate1)-1, int(imode2)-2, int(imode1)-2] = parameters[key]
-        elif re.search(u'\|\ds\d+&\d+\|\d+q', k):
-          result = re.search(u'(\w+).*?s(\d+).*?(\d+)\|(\d+).*', k)
+        elif re.search(u'\\|\\ds\\d+&\\d+\\|\\d+q', k):
+          result = re.search(u'(\\w+).*?s(\\d+).*?(\\d+)\\|(\\d+).*', k)
           key, istate1, istate2, imode = result.groups()
           coef1[int(istate1)-1, int(istate2)-1, int(imode)-2] = parameters[key]
           coef1[int(istate2)-1, int(istate1)-1, int(imode)-2] = parameters[key]
-        elif re.search(u'\|\d+ke', k):
-          result = re.search(u'.*\*(\w+)\|(\d+)ke', k)
+        elif re.search(u'\\|\\d+ke', k):
+          result = re.search(u'.*\\*(\\w+)\\|(\\d+)ke', k)
           key, imode = result.groups()
           omega[int(imode)-2] = parameters[key]
-        elif re.search(u'\d+&\d+', k):
-          result = re.search(u'(\w+).*\|\d+s(\d+)&(\d+)', k)
+        elif re.search(u'\\d+&\\d+', k):
+          result = re.search(u'(\\w+).*\\|\\d+s(\\d+)&(\\d+)', k)
           key, istate1, istate2 = result.groups()
           if '-' in k:
             e0[int(istate1)-1, int(istate2)-1] = -1*parameters[key]

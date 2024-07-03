@@ -151,7 +151,7 @@ class GetParameters(object):
         key, value = item.split("=")[0:2]  #only the first "=" will be read
         inp[key] = value
 #lines begin with "modes\|" will be collected as modes
-      elif re.match('modes\|', item):
+      elif re.match('modes\\|', item):
         for imode in item.replace('modes|', '').split('|'):
           if(len(imode) == 0):
             warnings.warn("Empty mode name, ignore")
@@ -197,46 +197,46 @@ class GetParameters(object):
     parameters = {}
     for item in self.inp.keys():
       try:
-        if re.match('v_s(\d+)_s(\d+)', item):  #off-diagonal constant term. example:V_S0_S1 = 0.00
-          result = re.match(u'v_s(\d+)_s(\d+)', item)
+        if re.match('v_s(\\d+)_s(\\d+)', item):  #off-diagonal constant term. example:V_S0_S1 = 0.00
+          result = re.match(u'v_s(\\d+)_s(\\d+)', item)
           istate, jstate = result.groups()
           e0[int(istate), int(jstate)] = self.inp[item]
           e0[int(jstate), int(istate)] = self.inp[item]
-        elif re.match('v_s(\d+)', item):  #on-diagonal constant term. example:V_S0 = -0.42300
-          result = re.match(u'v_s(\d+)', item)
+        elif re.match('v_s(\\d+)', item):  #on-diagonal constant term. example:V_S0 = -0.42300
+          result = re.match(u'v_s(\\d+)', item)
           istate = result.groups()[0]
           e0[int(istate), int(istate)] = self.inp[item]
         elif re.match('omega', item):  #harmonic term. example:omega_v10a = 0.11390
-          result = re.match(u'omega_(\w+)', item)
+          result = re.match(u'omega_(\\w+)', item)
           imode = result.groups()[0]
           omega[self.modes[imode]] = self.inp[item]
-        elif re.match('kl_s(\d+)_s(\d+)_(\w+)', item):  #off-diagonal linar term. example:kl_S0_S1_v10a = 0.20804
-          result = re.match(u'kl_s(\d+)_s(\d+)_(\w+)', item)
+        elif re.match('kl_s(\\d+)_s(\\d+)_(\\w+)', item):  #off-diagonal linar term. example:kl_S0_S1_v10a = 0.20804
+          result = re.match(u'kl_s(\\d+)_s(\\d+)_(\\w+)', item)
           istate, jstate, imode = result.groups()
           coef1[int(istate), int(jstate), self.modes[imode]] = self.inp[item]
           coef1[int(jstate), int(istate), self.modes[imode]] = self.inp[item]
-        elif re.match('kl_s(\d+)_(\w+)', item):  #on-diagonal linar term. example:kl_S0_v6a = 0.09806
-          result = re.match(u'kl_s(\d+)_(\w+)', item)
+        elif re.match('kl_s(\\d+)_(\\w+)', item):  #on-diagonal linar term. example:kl_S0_v6a = 0.09806
+          result = re.match(u'kl_s(\\d+)_(\\w+)', item)
           istate, imode = result.groups()
           coef1[int(istate), int(istate), self.modes[imode]] = self.inp[item]
-        elif re.match('kb_s(\d+)_s(\d+)_(\w+)_(\w+)', item):  #off-diagonal bilinear term. example:kb_S0_S1_v10a_v1 = 0.00553
-          result = re.match(u'kb_s(\d+)_s(\d+)_(\w+)_(\w+)', item)
+        elif re.match('kb_s(\\d+)_s(\\d+)_(\\w+)_(\\w+)', item):  #off-diagonal bilinear term. example:kb_S0_S1_v10a_v1 = 0.00553
+          result = re.match(u'kb_s(\\d+)_s(\\d+)_(\\w+)_(\\w+)', item)
           istate, jstate, imode, jmode = result.groups()
           coef2[int(istate), int(jstate), self.modes[imode], self.modes[jmode]] = self.inp[item]
           coef2[int(jstate), int(istate), self.modes[imode], self.modes[jmode]] = self.inp[item]
           coef2[int(istate), int(jstate), self.modes[jmode], self.modes[imode]] = self.inp[item]
           coef2[int(jstate), int(istate), self.modes[jmode], self.modes[imode]] = self.inp[item]
-        elif re.match('kb_s(\d+)_(\w+)_(\w+)', item):  #on-diagonal bilinear term. example:kb_S1_v6a_v1 = -0.00298
-          result = re.match(u'kb_s(\d+)_(\w+)_(\w+)', item)
+        elif re.match('kb_s(\\d+)_(\\w+)_(\\w+)', item):  #on-diagonal bilinear term. example:kb_S1_v6a_v1 = -0.00298
+          result = re.match(u'kb_s(\\d+)_(\\w+)_(\\w+)', item)
           istate, imode, jmode = result.groups()
           coef2[int(istate), int(istate), self.modes[imode], self.modes[jmode]] = self.inp[item]
           coef2[int(istate), int(istate), self.modes[jmode], self.modes[imode]] = self.inp[item]
-        elif re.match('kq_s(\d+)_s(\d+)_(\w+)', item):  #off-diagonal quadratic term. example:kq_S0_S1_v10a = 0.00553
-          result = re.match(u'kq_s(\d+)_s(\d+)_(\w+)', item)
+        elif re.match('kq_s(\\d+)_s(\\d+)_(\\w+)', item):  #off-diagonal quadratic term. example:kq_S0_S1_v10a = 0.00553
+          result = re.match(u'kq_s(\\d+)_s(\\d+)_(\\w+)', item)
           istate, jstate, imode = result.groups()
           coef2[int(istate), int(jstate), self.modes[imode], self.modes[imode]] = self.inp[item]
-        elif re.match('kq_s(\d+)_(\w+)', item):  #on-diagonal quadratic term. example:kq_S1_v10a = -0.01159
-          result = re.match(u'kq_s(\d+)_(\w+)', item)
+        elif re.match('kq_s(\\d+)_(\\w+)', item):  #on-diagonal quadratic term. example:kq_S1_v10a = -0.01159
+          result = re.match(u'kq_s(\\d+)_(\\w+)', item)
           istate, imode = result.groups()
           coef2[int(istate), int(istate), self.modes[imode], self.modes[imode]] = self.inp[item]
       except(IndexError,KeyError):
