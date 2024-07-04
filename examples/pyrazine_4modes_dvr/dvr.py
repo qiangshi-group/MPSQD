@@ -117,8 +117,6 @@ def dvrtemplate(nr,ndvr,rmin,rmax):
 # we now can get the initial state from the eigenstate of h0
 # default is the ground state
   vinit = 0
-#  h0_ev, h0_vr = np.linalg.eigh(hnew)
-#  init_phi = h0_vr[:,vinit]
   init_phi = sphi[vinit,:]
 
 # return values: po-dvr points; initial wavefunction; 
