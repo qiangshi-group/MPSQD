@@ -116,8 +116,6 @@ def expmv(mmax, dt, yy, phi1, phi2, mat1=None):
     # need to get a new y0, otherwise not good....
         y0 = dy1/rtmp
         vm.append(y0)
-      else:
-        print("Warning: The dimension of Krylov space reached mmax")
     else:
       break
 
@@ -151,8 +149,6 @@ def update_k_2sites(mmax,r1,r2,delta_t,m1,m2,phi1,phi2,small,nrmax):
     # need to get a new y0, otherwise not good....
       dy1 /= rtmp
       vm[j+1] = dy1
-    else:
-      print('Warning: threshold not enough')
   return yy, kdims
 
 def update_rk4(dt,yy,phi1,phi2,mat1=None,rk4slices=10):
