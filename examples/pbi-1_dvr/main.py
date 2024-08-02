@@ -28,7 +28,7 @@ def main():
     pall = copy2tensorMat0(pall)
     if (pa.write_pall):
       # write the MPO to file
-      pall = write_mpo_file('pbi_tensor')
+      write_mpo_file(pall,'pbi_tensor')
 
   print("++pall done++")
 
