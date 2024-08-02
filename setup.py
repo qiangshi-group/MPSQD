@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='mpsqd',
-    version='0.1.2',    
+    version='0.1.3',    
     description='A Python package based on MPS to solve the TDSE and HEOM',
     url='https://github.com/',
     author='Qiang Shi',
