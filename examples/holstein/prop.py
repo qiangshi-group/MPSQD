@@ -1,5 +1,6 @@
 import numpy as np
 import params as pa
+from calc_rho import calc_rho
 from mpsqd.tdvp import tdvp1site
 
 def prop(rin, pall):
