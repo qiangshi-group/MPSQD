@@ -18,7 +18,7 @@ nbath = 74
 nl1 = 2*nbath
 ndvr = nsite
 nlevel = nl1*nsite
-read_pall = True
+read_pall = False
 
 
 nb = np.zeros(nlevel+2,dtype=int)
