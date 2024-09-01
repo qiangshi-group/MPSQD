@@ -55,13 +55,8 @@ omega[23] = 0.0973      # 11
 
 omega = omega/au2ev
 #=================================================
-# A, B, and C terms 
-#acoef = np.zeros(nmode,dtype=np.float64)
-#bcoef = np.zeros(nmode,dtype=np.float64)
-#ccoef = np.zeros(nmode,dtype=np.float64)
 coef1 = np.zeros((nstate,nstate,nmode),dtype=np.float64)
 coef2 = np.zeros((nstate,nstate,nmode,nmode),dtype=np.float64)
-# A for s1 and B for s2
 # linear, on-diagonal coupling coefficients
 # H(1,1)
 coef1[0,0,1] = 0.09806      # 6a
@@ -79,18 +74,9 @@ coef1[1,1,5] = -0.01619      # 2
 # the first order C terms, only for 10a
 coef1[0,1,0] = 0.20804   #10a
 
-#acoef = acoef/au2ev
-#bcoef = bcoef/au2ev 
-#ccoef = ccoef/au2ev 
 coef1 = coef1/au2ev 
 
 #=================================================
-# the second order A, B, C terms
-# ?? some are set to zero intentioanlly ????
-#a2coef = np.zeros((nmode,nmode),dtype=np.float64)
-#b2coef = np.zeros((nmode,nmode),dtype=np.float64)
-#c2coef = np.zeros((nmode,nmode),dtype=np.float64)
-
 # quadratic, on-diagonal coupling coefficients
 # H(1,1)
 coef2[0,0,0,0] = -0.01159      # 10a
@@ -242,35 +228,4 @@ coef2[0,1,20,22] = -0.00285      # 19b, 16b
 coef2[0,1,21,22] = -0.00095      # 20b, 16b
 
 #===================================
-#a2coef = a2coef/au2ev
-#b2coef = b2coef/au2ev
-#c2coef = c2coef/au2ev
 coef2 = coef2/au2ev
-
-# primary basis size 
-nb1 = np.zeros(nmode,dtype=int)
-nb1[0] = 40
-nb1[1] = 32
-nb1[2] = 20
-nb1[3] = 12
-nb1[4] = 8
-nb1[5] = 4
-nb1[6] = 24
-nb1[7] = 8
-nb1[8] = 8
-nb1[9] = 8
-nb1[10] = 24
-nb1[11] = 4
-nb1[12] = 24
-nb1[13] = 6
-nb1[14] = 20
-nb1[15] = 6
-nb1[16] = 6
-nb1[17] = 4
-nb1[18] = 80
-nb1[19] = 20
-nb1[20] = 72
-nb1[21] = 6
-nb1[22] = 32
-nb1[23] = 6
-
