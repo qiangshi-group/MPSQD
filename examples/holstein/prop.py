@@ -3,19 +3,23 @@ import params as pa
 from calc_rho import calc_rho
 from mpsqd.tdvp import tdvp1site
 
+
 def prop(rin, pall):
   s1 = "  "
 #==============================================
   # time step 0
   rho1 = calc_rho(rin)
+  fp1 = open('msd.dat','w')
+  fp = []
+  for i in range(pa.nsite):
+    output = (str(0)+ s1 + str(rho1[i,i].real) + '\n')
+    fp.append(open('pop'+str(i)+'.dat','w'))
+    fp[i].write(output)
+    fp[i].flush()
 
-  output = (str(0)+ s1 + str(rho1[0,0].real)
-                + s1 + str(rho1[1,1].real)
-                + s1 + str(rho1[0,1].real)+'\n')
-
-  fp = open('output.dat','w')
-  fp.write(output)
-  fp.flush()
+  output1 = (str(0) + s1 + str(0) + '\n')
+  fp1.write(output1)
+  fp1.flush
 
   print("dimension of rin =", rin.ndim())
 #==============================================
@@ -27,13 +31,20 @@ def prop(rin, pall):
     rin = tdvp1site(rin, pall, pa.dt)
 
     rho1 = calc_rho(rin)
-
-    output = (str(istep*pa.dt) + s1 + str(rho1[0,0].real)
-                + s1 + str(rho1[1,1].real)
-                + s1 + str(rho1[0,1].real)+'\n')
-
-
+    for i in range(pa.nsite):
+      output = (str(istep*pa.dt) + s1 + str(rho1[i,i].real)+'\n')
     # write to files
-    fp.writelines(output)
-    fp.flush()
+      fp[i].writelines(output)
+      fp[i].flush()
+    # calculate the MSD
+    msd = 0.0
+    jj = 0
+    for i in range(pa.nsite):
+      jj = i
+      if jj > pa.nsite/2:
+        jj = pa.nsite - jj
+      msd += jj**2*rho1[jj,jj].real
+    output1 = (str(istep*pa.dt) + s1 + str(msd)+'\n')
+    fp1.writelines(output1)
+    fp1.flush()
   return
