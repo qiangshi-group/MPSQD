@@ -19,18 +19,15 @@ def main():
 # get pall
 # construct the MPO
   pall = cst.construct()
+  pallnew = MPS2MPO(pall)
   if (pa.write_pall):
     # write the MPO to file
     write_mpo_file(pall,'sp_tensor')
 
   print("++pall done++")
-
-  # copy pall
-  pallnew = MPS2MPO(pall)
-  print("++reshape of pall done++")
-
+  
   # propagation and output
-  pp.prop(rhoall, pallnew)
+  pp.prop(rhoall, pall)
 
   print("all done!")
 
