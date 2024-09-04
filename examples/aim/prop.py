@@ -17,15 +17,6 @@ def prop(rin, pall):
 
 #==============================================
   # time step 0
-#  if(pa.Isbreakread):
-#    istep = pa.r_breakp
-#  else:
-#    istep = 0
-
-#  if(istep==0):
-#    fmode = 'w'
-#  else:
-#    fmode = 'a'
   istep = 0
   fp_diag = open('opr-pop.dat','w')
 
@@ -43,21 +34,16 @@ def prop(rin, pall):
   fptime = open('opr-time.dat','w')
 
   fpall={1:fp_diag,3:fpc1,4:fpc2,5:fpc3,6:fbp1,7:fptr,8:fpds,11:fptime}
-#  if(fmode=='a'):
-#    for ff in fpall:
-#      fpall[ff].write('\n'+'###break###\n')    
 #===============================================
 # initial step with rk4
   wr_PhyQuant(0,rin,fp_diag,fbp1,fpds,fptr,fpc1,fpc2,fpc3) 
 
   istep += 1
   print('initial rk4')
-#  rin = rk4.rk4(rin, pall,0.1*pa.dt)
   rin = rk4(rin, pall, 0.1*pa.dt, small=pa.small_mps, nrmax=pa.nrmax)
   rin = expand_nrtt(rin,pa.nrtt)
 
   print('initial ksl')
-#  rin = ksl.ksltt(rin, pall, 0.9*pa.dt)
   rin = tdvp1site(rin, pall, 0.9*pa.dt, mmax=pa.mmax)
   print("dimension of rin =", rin.ndim())
 
@@ -68,7 +54,6 @@ def prop(rin, pall):
     itime_st=time.time()
     print("istep =", istep)
   
-  #  rin = ksl.ksltt(rin, pall, pa.dt)
     rin = tdvp1site(rin, pall, pa.dt, mmax=pa.mmax)
   
     wr_PhyQuant(istep,rin,fp_diag,fbp1,fpds,fptr,fpc1,fpc2,fpc3) 
@@ -125,7 +110,6 @@ def expand_nrtt(rin,nbond_dim):
 def wr_PhyQuant(istep,rin,fp_diag,fbp,fpds,fptr,fpc1,fpc2,fpc3):
   s1 = '  '
   rho1 = cr.calc_rho(rin)
-  #output = (str(istep*pa.dt*pa.au2fs)+ s1 + str(rho1[0,0].real) \
   output = (str(istep*pa.dt) + s1 + str(rho1[0,0].real) \
               + s1 + str(rho1[1,1].real) \
               + s1 + str(rho1[2,2].real) \
