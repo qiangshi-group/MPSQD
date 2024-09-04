@@ -169,7 +169,7 @@ def setup_freqs_pade_ct2_fk0(nlevel,omegac,omega0,mu,eta):
     ctemp = ctemp + 2.0*np.pi*eta*residue[i]*beta*omegtmp/(beta**2*omegtmp**2+dummy[i])
 # we should notice (2.d0*pi) comes from the spectrum density function.
   gval_ctm[0] =omegac*ctemp/(2.0*np.pi)
-  print("modified gval(1) =", gval_ctp[0], gval_ctm[0])
+  print("modified gval[0] =", gval_ctp[0], gval_ctm[0])
   return wval_ctp,wval_ctm,gval_ctp,gval_ctm
 
 wval_ctp_l,wval_ctm_l,gval_ctp_l,gval_ctm_l = setup_freqs_pade_ct2_fk0(nlevel1,omegac_l,omega0_l,mu_l,eta_l)
