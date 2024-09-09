@@ -69,7 +69,7 @@ def setupfreqs():
       k0 = k0-gval[i-1]/wval[i-1]
 
   a0coef = 0.0
-  normfac = np.empty(nlevel,dtype=np.float128)
+  normfac = np.empty(nlevel,dtype=np.float64)
   for i in range(1,nlevel+1,1):
       normfac[i-1] = np.sqrt(abs(gval[i-1]))
       a0coef += np.real(gval[i-1])
