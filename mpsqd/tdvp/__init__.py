@@ -32,9 +32,9 @@ def tdvp1site(rin,pall,dt,update_type='krylov',mmax=30,nsteps=1):
 def tdvp2site(rin,pall,dt,mmax=30,small=1e-13,nrmax=50,nsteps=1):
   argdict = {'dt':dt,'mmax':mmax,'small':small,'nrmax':nrmax,'nsteps':nsteps}
   try:
-    for key in ['nsteps','mmax']:
+    for key in ['nsteps','mmax','nrmax':
       argdict[key] = int(argdict[key])
-    for key in ['dt','small','nrmax']:
+    for key in ['dt','small']:
       argdict[key] = float(argdict[key])
     for key in ['dt','nsteps','mmax','small']:
       if (argdict[key] <= 0):
