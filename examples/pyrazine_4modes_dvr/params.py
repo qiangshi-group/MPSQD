@@ -17,7 +17,6 @@ dt = 20.6707
 
 read_pall = False
 write_pall = False
-pall_file = "pall4mod"
 
 ########### setup all parameters ################
 #nb and nbmat
