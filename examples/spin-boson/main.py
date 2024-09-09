@@ -19,7 +19,7 @@ def main():
 # get pall
 # construct the MPO
   pall = cst.construct()
-  pallnew = MPS2MPO(pall)
+  pall = MPS2MPO(pall)
   if (pa.write_pall):
     # write the MPO to file
     write_mpo_file(pall,'sp_tensor')
