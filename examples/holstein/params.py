@@ -78,7 +78,7 @@ def setupfreqs():
       jwtmp += pk[j]/((-omegatmp**2+omega_b[j]**2+gamma_b[j]**2)**2+4*omega_b[j]**2*omegatmp**2)
     k0 -= 2.0*jwtmp/beta
   a0coef = 0.0
-  normfac = np.empty(nl1,dtype=np.float128)
+  normfac = np.empty(nl1,dtype=np.float64)
   for i in range(1,nl1+1,1):
      normfac[i-1] = np.sqrt(abs(gval[i-1]))
      a0coef += np.real(gval[i-1])
