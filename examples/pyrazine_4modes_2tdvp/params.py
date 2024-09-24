@@ -3,16 +3,16 @@ import numpy as np
 
 # constants
 small = 1e-14
-mmax = 10
-nbv = 30
+mmax = 40
+nbv = 40
 nrtt = 50
 nrmax = 50
-nsteps = 300
+nsteps = 1000
 nlevel = 4
 ndvr = 2
 
 init_state = 1
-dt = 20
+dt = 2
 
 # read/write pall
 read_pall = False
