@@ -14,4 +14,5 @@ Primitive documentation can be found in the included `.ipynb` files.
 
 ### Citation
 - Q. Shi, Y. Xu, Y. Yan, and M. Xu, “Efficient propagation of the hierarchical equations of motion using the matrix product state method,” J. Chem. Phys. 148, 174102 (2018).
+- W.-Z. Guan, P. Bao, J.-W. Peng, Z.-G. Lan, and Q. Shi, “mpsqd: A matrix product state based Python package to simulate closed and open system quantum dynamics” J. Chem. Phys. 161, 122501 (2024)
 
