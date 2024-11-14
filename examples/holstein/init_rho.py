@@ -29,7 +29,7 @@ def init_rho():
   for i in range(pa.ndvr):
     for j in range(ii):
       vl[0,i,j] = u1[i,j]
-      vr[0,i,j] = vt1[j,i]
+      vr[j,i,0] = vt1[j,i]
 
 # vmid
   vmid = []
